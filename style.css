@@ -40,19 +40,39 @@ button{
     font-weight: bold;
 }
 
+button:hover{
+    background-color: #363636;
+    cursor: pointer;
+}
+
 .respuestas{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 2em;
+    margin: 1em;
+    background-color: #131313;
+    padding: 1em;
+    border-radius: 7px;
 }
 
 .correctas{
-    color: green;
-    margin-right: 10px;
+    color: rgb(91, 255, 58);
+    margin-right: 25px;
 }
 
 .incorrectas{
-    color: red;
-    margin-left: 10px;
+    color: rgb(255, 32, 32);
+}
+
+.fas{
+    margin-right: 10px;
+}
+
+.fa-times-circle{
+    margin-left: 25px;
+    color: rgb(255, 32, 32);
+}
+
+.fa-check-circle{
+    color: rgb(91, 255, 58);
 }

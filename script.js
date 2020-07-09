@@ -14,6 +14,14 @@ class Country{
 
 }
 
+class Game{
+    constructor(){
+        this.respuestasCorrectas = 0;
+        this.respuestasIncorrectas = 0;
+    }
+}
+
+// PAISES
 argentina = new Country("ar", "Argentina");
 brasil = new Country("br", "Brasil");
 chile = new Country("cl", "Chile");
@@ -30,10 +38,60 @@ antiguaYBarbuda = new Country("ag", "Antigua y Barbuda");
 trinidadYTobago = new Country("tt", "Trinidad y Tobago");
 panama = new Country("pa", "Panama");
 
+// DOM
 bandera = document.querySelector(".bandera");
+listaDeBotones = document.querySelectorAll("button");
 
+
+const paisesCopia = [argentina, brasil, chile, uruguay, paraguay, bolivia, colombia, ecuador, guyana, peru, surinam, venezuela, antiguaYBarbuda, trinidadYTobago, panama];
+
+
+// FUNCIONES
 function cambiarBandera(pais){
     bandera.innerHTML = `<img src="${pais.getLink()}" alt=""></img>`;
 }
 
-cambiarBandera(panama);
+function shuffle(array){
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+}
+
+function generarOpciones(array){
+    array = shuffle(array);
+    return array.slice(0,4);
+}
+
+function generarRespuesta(){
+    return Math.floor(Math.random()*3);
+}
+
+function cambiarOpciones(opciones) {
+   for(let i = 0; i < listaDeBotones.length; i++){
+       listaDeBotones[i].textContent = opciones[i].nombre;
+   }
+}
+
+function cambiarBanderaYOpciones(paises, respuesta){
+    opciones = generarOpciones(paises);
+    cambiarOpciones(opciones);
+    cambiarBandera(opciones[respuesta]);
+}
+
+function main(){
+    paises = paisesCopia;
+    juego = new Game();
+    respuesta = generarRespuesta();
+    cambiarBanderaYOpciones(paises, respuesta);
+    generarEventListeners(respuesta);
+}
+
+main();
