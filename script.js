@@ -14,12 +14,8 @@ class Country{
 
 }
 
-class Game{
-    constructor(){
-        this.respuestasCorrectas = 0;
-        this.respuestasIncorrectas = 0;
-    }
-}
+let respuestasCorrectas = 0;
+let respuestasIncorrectas = 0;
 
 // PAISES
 argentina = new Country("ar", "Argentina");
@@ -39,8 +35,10 @@ trinidadYTobago = new Country("tt", "Trinidad y Tobago");
 panama = new Country("pa", "Panama");
 
 // DOM
-bandera = document.querySelector(".bandera");
-listaDeBotones = document.querySelectorAll("button");
+let bandera = document.querySelector(".bandera");
+let listaDeBotones = document.querySelectorAll("button");
+let contadorCorrectas = document.querySelector(".correctas");
+let contadorIncorrectas = document.querySelector(".incorrectas");
 
 
 const paisesCopia = [argentina, brasil, chile, uruguay, paraguay, bolivia, colombia, ecuador, guyana, peru, surinam, venezuela, antiguaYBarbuda, trinidadYTobago, panama];
@@ -86,9 +84,35 @@ function cambiarBanderaYOpciones(paises, respuesta){
     cambiarBandera(opciones[respuesta]);
 }
 
+function soloUnaVez(){
+    listaDeBotones.forEach(boton => {
+        boton.style.pointerEvents = "none";
+    });
+}
+
+function generarEventListeners(respuesta){
+    let index = 0;
+    listaDeBotones.forEach(boton => {
+        boton.addEventListener("click", () => {
+            if(listaDeBotones[respuesta].textContent === boton.textContent){
+                boton.style.backgroundColor = "green";
+                respuestasCorrectas += 1;
+                contadorCorrectas.textContent = parseInt(respuestasCorrectas);
+                soloUnaVez();
+            }else{
+                boton.style.backgroundColor = "red";
+                listaDeBotones[respuesta].style.backgroundColor = "green";
+                respuestasIncorrectas += 1;
+                contadorIncorrectas.textContent = parseInt(respuestasIncorrectas);
+                soloUnaVez();
+            }
+        });
+        index += 1;
+    });
+}
+
 function main(){
     paises = paisesCopia;
-    juego = new Game();
     respuesta = generarRespuesta();
     cambiarBanderaYOpciones(paises, respuesta);
     generarEventListeners(respuesta);
