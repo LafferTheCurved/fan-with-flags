@@ -43,6 +43,8 @@ let contadorIncorrectas = document.querySelector(".incorrectas");
 
 const paisesCopia = [argentina, brasil, chile, uruguay, paraguay, bolivia, colombia, ecuador, guyana, peru, surinam, venezuela, antiguaYBarbuda, trinidadYTobago, panama];
 
+let respuestaCorrecta;
+let index = 0;
 
 // FUNCIONES
 function cambiarBandera(pais){
@@ -84,38 +86,73 @@ function cambiarBanderaYOpciones(paises, respuesta){
     cambiarBandera(opciones[respuesta]);
 }
 
-function soloUnaVez(){
+function eliminarEventListeners(){
     listaDeBotones.forEach(boton => {
-        boton.style.pointerEvents = "none";
+        boton.removeEventListener("click", eventListener);
+        
     });
 }
 
 function generarEventListeners(respuesta){
-    let index = 0;
     listaDeBotones.forEach(boton => {
-        boton.addEventListener("click", () => {
-            if(listaDeBotones[respuesta].textContent === boton.textContent){
-                boton.style.backgroundColor = "green";
-                respuestasCorrectas += 1;
-                contadorCorrectas.textContent = parseInt(respuestasCorrectas);
-                soloUnaVez();
-            }else{
-                boton.style.backgroundColor = "red";
-                listaDeBotones[respuesta].style.backgroundColor = "green";
-                respuestasIncorrectas += 1;
-                contadorIncorrectas.textContent = parseInt(respuestasIncorrectas);
-                soloUnaVez();
-            }
-        });
+        boton.addEventListener("click", eventListener);
         index += 1;
     });
 }
 
-function main(){
+function eventListener(e){
+    if(e.target.textContent === listaDeBotones[respuestaCorrecta].textContent){
+        e.target.style.backgroundColor = "green";
+        respuestasCorrectas += 1;
+        contadorCorrectas.textContent = parseInt(respuestasCorrectas);
+    }else{
+        e.target.style.backgroundColor = "red";
+        listaDeBotones[respuestaCorrecta].style.backgroundColor = "green";
+        respuestasIncorrectas += 1;
+        contadorIncorrectas.textContent = parseInt(respuestasIncorrectas);
+    }
+    eliminarEventListeners();
+
+    setTimeout(function () {
+        nuevaPregunta();
+    }, 750);
+}
+
+function nuevaPregunta(){
     paises = paisesCopia;
-    respuesta = generarRespuesta();
-    cambiarBanderaYOpciones(paises, respuesta);
-    generarEventListeners(respuesta);
+    listaDeBotones.forEach(boton => {
+        boton.style.backgroundColor = "#5f5f5f";
+    });
+    respuestaCorrecta = generarRespuesta();
+    cambiarBanderaYOpciones(paises, respuestaCorrecta);
+    generarEventListeners(respuestaCorrecta);
+}
+
+function main(){
+    nuevaPregunta();
 }
 
 main();
+
+/* function generarEventListeners(respuesta){
+    let index = 0;
+    listaDeBotones.forEach(boton => {
+        boton.addEventListener("click", () => {
+            if(listaDeBotones[respuesta].textContent === boton.textContent){
+                //boton.style.backgroundColor = "green";
+                respuestasCorrectas += 1;
+                contadorCorrectas.textContent = parseInt(respuestasCorrectas);
+                //pointerEvents();
+                nuevaPregunta();
+            }else{
+                //boton.style.backgroundColor = "red";
+                //listaDeBotones[respuesta].style.backgroundColor = "green";
+                respuestasIncorrectas += 1;
+                contadorIncorrectas.textContent = parseInt(respuestasIncorrectas);
+                //pointerEvents();
+                nuevaPregunta();
+            }
+        });
+        index += 1;
+    });
+} */
