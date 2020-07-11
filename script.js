@@ -71,7 +71,7 @@ function generarOpciones(array){
 }
 
 function generarRespuesta(){
-    return Math.floor(Math.random()*3);
+    return Math.floor(Math.random()*4);
 }
 
 function cambiarOpciones(opciones) {
