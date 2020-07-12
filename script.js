@@ -36,16 +36,22 @@ panama = new Country("pa", "Panama");
 
 // DOM
 let bandera = document.querySelector(".bandera");
-let listaDeBotones = document.querySelectorAll("button");
+let listaDeBotones = document.querySelectorAll(".optionBoton");
 let contadorCorrectas = document.querySelector(".correctas");
 let contadorIncorrectas = document.querySelector(".incorrectas");
-
-
+let botonReiniciar = document.querySelector(".reiniciar");
+let finJuego = document.querySelector(".findeljuego");
+let porcentajeResultados = document.querySelector(".porcentaje");
+let respuestaCorrecta;
 const paises = [argentina, brasil, chile, uruguay, paraguay, bolivia, colombia, ecuador, guyana, peru, surinam, venezuela, antiguaYBarbuda, trinidadYTobago, panama];
 let paisesCopia = paises;
 
-let respuestaCorrecta;
-let index = 0;
+
+
+// EVENT LISTENERS
+botonReiniciar.addEventListener("click", () => {
+    location.reload();
+}); 
 
 // FUNCIONES
 function cambiarBandera(pais){
@@ -97,18 +103,17 @@ function eliminarEventListeners(){
 function generarEventListeners(respuesta){
     listaDeBotones.forEach(boton => {
         boton.addEventListener("click", eventListener);
-        index += 1;
     });
 }
 
 function eventListener(e){
     if(e.target.textContent === listaDeBotones[respuestaCorrecta].textContent){
-        e.target.style.backgroundColor = "green";
+        e.target.style.backgroundColor = "rgb(48, 155, 27)";
         respuestasCorrectas += 1;
         contadorCorrectas.textContent = parseInt(respuestasCorrectas);
     }else{
-        e.target.style.backgroundColor = "red";
-        listaDeBotones[respuestaCorrecta].style.backgroundColor = "green";
+        e.target.style.backgroundColor = "rgb(221, 26, 26)";
+        listaDeBotones[respuestaCorrecta].style.backgroundColor = "rgb(48, 155, 27)";
         respuestasIncorrectas += 1;
         contadorIncorrectas.textContent = parseInt(respuestasIncorrectas);
     }
@@ -120,8 +125,8 @@ function eventListener(e){
 }
 
 function nuevaPregunta(){
-    if(respuestasCorrectas+respuestasIncorrectas === 5){
-        location.reload();
+    if(respuestasCorrectas+respuestasIncorrectas === 10){
+        mostrarResultados();
     }
     listaDeBotones.forEach(boton => {
         boton.style.backgroundColor = "#5f5f5f";
@@ -130,6 +135,11 @@ function nuevaPregunta(){
     cambiarBanderaYOpciones(paisesCopia, respuestaCorrecta);
     generarEventListeners(respuestaCorrecta);
     paisesCopia.splice(respuestaCorrecta, 1);   
+}
+
+function mostrarResultados(){
+    finJuego.style.display = "flex";
+    porcentajeResultados.textContent = `${respuestasCorrectas}0%`;
 }
 
 function main(){
