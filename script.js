@@ -41,7 +41,8 @@ let contadorCorrectas = document.querySelector(".correctas");
 let contadorIncorrectas = document.querySelector(".incorrectas");
 
 
-const paisesCopia = [argentina, brasil, chile, uruguay, paraguay, bolivia, colombia, ecuador, guyana, peru, surinam, venezuela, antiguaYBarbuda, trinidadYTobago, panama];
+const paises = [argentina, brasil, chile, uruguay, paraguay, bolivia, colombia, ecuador, guyana, peru, surinam, venezuela, antiguaYBarbuda, trinidadYTobago, panama];
+let paisesCopia = paises;
 
 let respuestaCorrecta;
 let index = 0;
@@ -119,13 +120,16 @@ function eventListener(e){
 }
 
 function nuevaPregunta(){
-    paises = paisesCopia;
+    if(respuestasCorrectas+respuestasIncorrectas === 5){
+        location.reload();
+    }
     listaDeBotones.forEach(boton => {
         boton.style.backgroundColor = "#5f5f5f";
     });
     respuestaCorrecta = generarRespuesta();
-    cambiarBanderaYOpciones(paises, respuestaCorrecta);
+    cambiarBanderaYOpciones(paisesCopia, respuestaCorrecta);
     generarEventListeners(respuestaCorrecta);
+    paisesCopia.splice(respuestaCorrecta, 1);   
 }
 
 function main(){
@@ -134,25 +138,4 @@ function main(){
 
 main();
 
-/* function generarEventListeners(respuesta){
-    let index = 0;
-    listaDeBotones.forEach(boton => {
-        boton.addEventListener("click", () => {
-            if(listaDeBotones[respuesta].textContent === boton.textContent){
-                //boton.style.backgroundColor = "green";
-                respuestasCorrectas += 1;
-                contadorCorrectas.textContent = parseInt(respuestasCorrectas);
-                //pointerEvents();
-                nuevaPregunta();
-            }else{
-                //boton.style.backgroundColor = "red";
-                //listaDeBotones[respuesta].style.backgroundColor = "green";
-                respuestasIncorrectas += 1;
-                contadorIncorrectas.textContent = parseInt(respuestasIncorrectas);
-                //pointerEvents();
-                nuevaPregunta();
-            }
-        });
-        index += 1;
-    });
-} */
+
